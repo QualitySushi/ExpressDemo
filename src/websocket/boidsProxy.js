@@ -1,7 +1,7 @@
 import { WebSocket } from 'ws';
 
 // Add '/api' to match FastAPI's route prefix
-const PYTHON_WS_URL = 'ws://localhost:8000/api/ws/simulation';
+const PYTHON_WS_URL = process.env.PYTHON_WS_URL || 'ws://polyglot-fastapi:8000/api/ws/simulation';
 
 export const setupBoidsProxy = (wss) => {
     wss.on('connection', (clientWs, req) => {

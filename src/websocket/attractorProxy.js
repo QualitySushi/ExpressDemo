@@ -1,6 +1,6 @@
 import { WebSocket } from 'ws';
 
-const PYTHON_ATTRACTOR_WS_URL = process.env.PYTHON_ATTRACTOR_WS_URL || 'ws://localhost:8000/api/ws/attractor';
+const PYTHON_ATTRACTOR_WS_URL = process.env.PYTHON_ATTRACTOR_WS_URL || 'ws://polyglot-fastapi:8000/api/ws/attractor';
 
 export const setupAttractorProxy = (wss) => {
     wss.on('connection', (clientWs, req) => {

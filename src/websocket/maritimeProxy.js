@@ -1,6 +1,6 @@
 import { WebSocket } from 'ws';
 
-const PYTHON_MARITIME_URL = process.env.PYTHON_MARITIME_URL || 'ws://localhost:8000/api/ws/maritime';
+const PYTHON_MARITIME_URL = process.env.PYTHON_MARITIME_URL || 'ws://polyglot-fastapi:8000/api/ws/maritime';
 
 export const setupMaritimeProxy = (wss) => {
     wss.on('connection', (clientWs, req) => {

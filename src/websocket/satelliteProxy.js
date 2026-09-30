@@ -1,6 +1,6 @@
 import { WebSocket } from 'ws';
 
-const PYTHON_SAT_URL = process.env.PYTHON_SAT_URL || 'ws://localhost:8000/ws/satellites';
+const PYTHON_SAT_URL = process.env.PYTHON_SAT_URL || 'ws://polyglot-fastapi:8000/ws/satellites';
 
 // In-memory cache to hold the latest satellite telemetry snapshot
 let latestSatelliteSnapshot = [];
