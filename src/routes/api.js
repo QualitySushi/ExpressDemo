@@ -26,4 +26,23 @@ router.get('/satellites', async (req, res, next) => {
     }
 });
 
+router.get('/maritime/mesh', async (req, res, next) => {
+    try {
+        const pythonUrl = process.env.PYTHON_MARITIME_REST_URL || 'http://localhost:8000/api/maritime/mesh';
+        const response = await fetch(pythonUrl);
+
+        if (!response.ok) {
+            return res.status(response.status).json({ 
+                success: false, 
+                error: `Python service returned status ${response.status}` 
+            });
+        }
+
+        const data = await response.json();
+        res.json(data);
+    } catch (err) {
+        next(err);
+    }
+});
+
 export default router;

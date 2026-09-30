@@ -5,6 +5,8 @@ import dotenv from 'dotenv';
 import app from './app.js';
 import { setupBoidsProxy } from './websocket/boidsProxy.js';
 import { setupSatelliteProxy } from './websocket/satelliteProxy.js';
+import { setupMaritimeProxy } from './websocket/maritimeProxy.js';
+import { setupAttractorProxy } from './websocket/attractorProxy.js';
 
 dotenv.config();
 
@@ -16,10 +18,14 @@ const server = http.createServer(app);
 // Initialize independent WebSocket servers without immediate port binding
 const boidsWss = new WebSocketServer({ noServer: true });
 const satWss = new WebSocketServer({ noServer: true });
+const maritimeWss = new WebSocketServer({ noServer: true });
+const attractorWss = new WebSocketServer({ noServer: true });
 
 // Attach proxy handlers
 setupBoidsProxy(boidsWss);
 setupSatelliteProxy(satWss);
+setupMaritimeProxy(maritimeWss);
+setupAttractorProxy(attractorWss);
 
 // Route incoming WebSocket upgrade requests based on URL path
 server.on('upgrade', (request, socket, head) => {
@@ -30,10 +36,22 @@ server.on('upgrade', (request, socket, head) => {
         boidsWss.handleUpgrade(request, socket, head, (clientWs) => {
             boidsWss.emit('connection', clientWs, request);
         });
+        
     } else if (pathname === '/ws/satellites') {
         satWss.handleUpgrade(request, socket, head, (clientWs) => {
             satWss.emit('connection', clientWs, request);
         });
+
+    } else if (pathname === '/ws/maritime') {
+        maritimeWss.handleUpgrade(request, socket, head, (clientWs) => {
+            maritimeWss.emit('connection', clientWs, request);
+        });
+
+    } else if (pathname === '/ws/attractor') { // <--- Added route handler
+            attractorWss.handleUpgrade(request, socket, head, (clientWs) => {
+                attractorWss.emit('connection', clientWs, request);
+            });
+
     } else {
         socket.destroy(); // Terminate invalid WebSocket paths
     }
